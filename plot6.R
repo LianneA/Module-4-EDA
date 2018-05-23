@@ -1,3 +1,5 @@
+install.packages("ggplot2")
+
 SCC<- readRDS("Source_Classification_Code.rds")
 summary_SCC <- readRDS("summarySCC_PM25.rds")
 
@@ -16,12 +18,10 @@ merge_LA$city <- "Los Angeles County"
 merge_ALL <- rbind(merge_baltimore, merge_LA)
 
 merge_ALL <- aggregate(Emissions ~ year + city, merge_ALL, sum)
+library(ggplot2)
+graphplot<-ggplot(merge_ALL, aes(year, Emissions, color = city))
 
-g <- ggplot(merge_ALL, aes(year, Emissions, color = city))
-g + geom_line() +
-  xlab("Year") +
-  ylab(expression("Total PM"[2.5]*" Emissions")) +
-  ggtitle("Total Emissions from motor sources in Baltimore and Los Angeles")
+graphplot2<- graphplot + geom_line() + xlab("year") +  ylab(expression('Total PM'[2.5]*" Emissions")) + ggtitle("Total Emissions from motor sources in Baltimore and Los Angeles")
 
 
 ggsave("plot6.png", graphplot2)
